@@ -1,0 +1,57 @@
+# macOS & IDEs (IntelliJ / Android Studio)
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IntelliJ / Android Studio global configs
+.idea/
+*.iml
+.gradle/
+*.iws
+*.ipr
+/shelf/
+/workspace.xml
+/httpRequests/
+/dataSources/
+/dataSources.local.xml
+
+.vscode/
+*.code-workspace
+
+# Compilación, Build y Salidas (Todos los Labs)
+**/build/
+**/bin/
+**/.kotlin/
+**/.gradle/
+**/captures/
+**/.externalNativeBuild/
+**/.cxx/
+
+# Configuración Local
+# Archivos de configuración local de Android
+local.properties
+**/local.properties
+
+# Credenciales, llaves de firmado y servicios de Firebase
+*.keystore
+*.jks
+**/google-services.json
+google-services.json
+
+# Archivos de Lenguajes y Compilados
+*.class
+*.log
+*.ctxt
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+hs_err_pid*
+replay_pid*
