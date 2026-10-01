@@ -1,7 +1,7 @@
 package com.lab7.chavez.data
 
 
-class LocationDbd {
+class LocationDb {
     private val locations: List<Location> = listOf(
         Location(1, "Earth (C-137)", "Planet", "Dimension C-137"),
         Location(2, "Abadango", "Cluster", "unknown"),
