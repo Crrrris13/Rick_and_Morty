@@ -1,4 +1,4 @@
-package com.lab7.chavez
+package com.lab7.chavez.ui.screens
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -13,6 +13,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.lab7.chavez.data.Character
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -75,9 +76,30 @@ fun CharacterItem(character: Character, onClick: () -> Unit) {
 @Composable
 fun CharactersScreenPreview() {
     val sampleCharacters = listOf(
-        Character(1, "Rick Sanchez", "Alive", "Human", "Male", "https://rickandmortyapi.com/api/character/avatar/1.jpeg"),
-        Character(2, "Morty Smith", "Alive", "Human", "Male", "https://rickandmortyapi.com/api/character/avatar/2.jpeg"),
-        Character(3, "Summer Smith", "Alive", "Human", "Female", "https://rickandmortyapi.com/api/character/avatar/3.jpeg")
+        Character(
+            1,
+            "Rick Sanchez",
+            "Alive",
+            "Human",
+            "Male",
+            "https://rickandmortyapi.com/api/character/avatar/1.jpeg"
+        ),
+        Character(
+            2,
+            "Morty Smith",
+            "Alive",
+            "Human",
+            "Male",
+            "https://rickandmortyapi.com/api/character/avatar/2.jpeg"
+        ),
+        Character(
+            3,
+            "Summer Smith",
+            "Alive",
+            "Human",
+            "Female",
+            "https://rickandmortyapi.com/api/character/avatar/3.jpeg"
+        )
     )
     MaterialTheme {
         CharactersScreen(characters = sampleCharacters, onCharacterClick = {})

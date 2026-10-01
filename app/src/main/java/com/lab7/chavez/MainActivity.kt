@@ -1,4 +1,4 @@
-package com.lab7.chavez
+package com.lab7.chavez.navigation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -9,6 +9,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.lab7.chavez.ui.screens.CharacterDetailScreen
+import com.lab7.chavez.ui.screens.CharactersScreen
+import com.lab7.chavez.ui.screens.LoginScreen
+import com.lab7.chavez.data.Character
+import com.lab7.chavez.data.CharacterDb
 import com.lab7.chavez.ui.theme.Lab7Theme
 
 class MainActivity : ComponentActivity() {
@@ -34,13 +39,13 @@ fun MainAppContent() {
         composable<LoginDestination> {
             LoginScreen(
                 onStartClick = {
-                    navController.navigate(CharactersDestination) {
+                    navController.navigate(CharactersGraph) {
                         popUpTo<LoginDestination> { inclusive = true }
                     }
                 }
             )
         }
-        composable<CharactersDestination> {
+        composable<CharactersGraph> {
             CharactersScreen(
                 characters = characterDb.getAllCharacters(),
                 onCharacterClick = { characterId ->

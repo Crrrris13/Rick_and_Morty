@@ -1,4 +1,4 @@
-package com.lab7.chavez
+package com.lab7.chavez.data
 
 data class Character(
     val id: Int,

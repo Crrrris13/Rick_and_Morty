@@ -1,4 +1,4 @@
-package com.lab7.chavez
+package com.lab7.chavez.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,6 +26,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.lab7.chavez.R
+import com.lab7.chavez.data.Character
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
