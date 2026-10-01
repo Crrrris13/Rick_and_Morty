@@ -182,7 +182,7 @@ fun MainAppContent(characterDb: CharacterDb, locationDb: LocationDb) {
                 }
             }
 
-            // Pantalla Profile (Directa, sin grafo anidado)
+            // Pantalla Profile
             composable<ProfileDestination> {
                 ProfileScreen(
                     onLogOutClick = {

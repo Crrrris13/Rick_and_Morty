@@ -72,11 +72,3 @@ fun LoginScreen(onStartClick: () -> Unit) {
         }
     }
 }
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun LoginScreenPreview() {
-    MaterialTheme {
-        LoginScreen(onStartClick = {})
-    }
-}

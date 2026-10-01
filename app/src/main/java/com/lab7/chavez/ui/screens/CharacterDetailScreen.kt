@@ -114,18 +114,3 @@ fun DetailRow(label: String, value: String) {
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun CharacterDetailScreenPreview() {
-    val sampleCharacter = Character(
-        id = 2,
-        name = "Morty Smith",
-        status = "Alive",
-        species = "Human",
-        gender = "Male",
-        image = "https"
-    )
-    MaterialTheme {
-        CharacterDetailScreen(character = sampleCharacter, onBackClick = {})
-    }
-}

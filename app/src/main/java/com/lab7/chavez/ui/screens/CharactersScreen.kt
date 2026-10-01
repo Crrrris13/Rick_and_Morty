@@ -71,37 +71,3 @@ fun CharacterItem(character: Character, onClick: () -> Unit) {
         }
     }
 }
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun CharactersScreenPreview() {
-    val sampleCharacters = listOf(
-        Character(
-            1,
-            "Rick Sanchez",
-            "Alive",
-            "Human",
-            "Male",
-            "https://rickandmortyapi.com/api/character/avatar/1.jpeg"
-        ),
-        Character(
-            2,
-            "Morty Smith",
-            "Alive",
-            "Human",
-            "Male",
-            "https://rickandmortyapi.com/api/character/avatar/2.jpeg"
-        ),
-        Character(
-            3,
-            "Summer Smith",
-            "Alive",
-            "Human",
-            "Female",
-            "https://rickandmortyapi.com/api/character/avatar/3.jpeg"
-        )
-    )
-    MaterialTheme {
-        CharactersScreen(characters = sampleCharacters, onCharacterClick = {})
-    }
-}
