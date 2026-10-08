@@ -4,19 +4,24 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.lab7.chavez.R
-import com.lab7.chavez.data.Location
+import com.lab7.chavez.viewmodels.LocationDetailViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LocationDetailScreen(
-    location: Location,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    viewModel: LocationDetailViewModel = viewModel()
 ) {
+    val state by viewModel.state.collectAsState()
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -36,38 +41,57 @@ fun LocationDetailScreen(
             )
         }
     ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Spacer(
-                modifier = Modifier.height(48.dp)
-            )
+        Box(modifier = Modifier.padding(innerPadding).fillMaxSize()) {
+            when {
+                state.hasError -> {
+                    Error(
+                        errorMessage = "Error al obtener el perfil de la ubicación.",
+                        onRetryClick = { viewModel.fetchLocationDetail() }
+                    )
+                }
 
-            Text(
-                text = location.name,
-                style = MaterialTheme.typography.headlineMedium
-            )
+                state.isLoading -> {
+                    Loading(
+                        onLoadingClick = { viewModel.triggerError() }
+                    )
+                }
 
-            Spacer(
-                modifier = Modifier.height(48.dp)
-            )
+                else -> {
+                    state.data?.let { location ->
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Spacer(
+                                modifier = Modifier.height(48.dp)
+                            )
 
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 32.dp)
-            ) {
-                DetailRow(label = "ID:", value = location.id.toString())
-                Spacer(modifier = Modifier.height(16.dp))
-                DetailRow(label = "Type:", value = location.type)
-                Spacer(modifier = Modifier.height(16.dp))
-                DetailRow(label = "Dimensions:", value = location.dimension)
+                            Text(
+                                text = location.name,
+                                style = MaterialTheme.typography.headlineMedium
+                            )
+
+                            Spacer(
+                                modifier = Modifier.height(48.dp)
+                            )
+
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 32.dp)
+                            ) {
+                                DetailRow(label = "ID:", value = location.id.toString())
+                                Spacer(modifier = Modifier.height(16.dp))
+                                DetailRow(label = "Type:", value = location.type)
+                                Spacer(modifier = Modifier.height(16.dp))
+                                DetailRow(label = "Dimensions:", value = location.dimension)
+                            }
+                        }
+                    }
+                }
             }
         }
-
     }
 }

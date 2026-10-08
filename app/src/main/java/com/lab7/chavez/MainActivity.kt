@@ -38,19 +38,16 @@ import com.lab7.chavez.ui.theme.Lab7Theme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val characterDb = CharacterDb()
-        val locationDb = LocationDb()
-
         setContent {
-            Lab7Theme() {
-                MainAppContent(characterDb, locationDb)
+            Lab7Theme {
+                MainAppContent()
             }
         }
     }
 }
 
 @Composable
-fun MainAppContent(characterDb: CharacterDb, locationDb: LocationDb) {
+fun MainAppContent() {
     val navController = rememberNavController()
 
     // pila de navegacion para saber la pantalla actual
@@ -145,17 +142,13 @@ fun MainAppContent(characterDb: CharacterDb, locationDb: LocationDb) {
             navigation<CharactersGraph>(startDestination = CharactersListDestination) {
                 composable<CharactersListDestination> {
                     CharactersScreen(
-                        characters = characterDb.getAllCharacters(),
                         onCharacterClick = { id ->
                             navController.navigate(CharacterDetailDestination(id))
                         }
                     )
                 }
-                composable<CharacterDetailDestination> { backStackEntry ->
-                    val detailRoute = backStackEntry.toRoute<CharacterDetailDestination>()
-                    val character = characterDb.getCharacterById(detailRoute.characterId)
+                composable<CharacterDetailDestination> {
                     CharacterDetailScreen(
-                        character = character,
                         onBackClick = { navController.popBackStack() }
                     )
                 }
@@ -165,18 +158,14 @@ fun MainAppContent(characterDb: CharacterDb, locationDb: LocationDb) {
             navigation<LocationsGraph>(startDestination = LocationsListDestination) {
                 composable<LocationsListDestination> {
                     LocationsScreen(
-                        locations = locationDb.getAllLocations(),
                         onLocationClick = { id ->
                             navController.navigate(LocationDetailDestination(id))
                         }
                     )
                 }
 
-                composable<LocationDetailDestination> { backStackEntry ->
-                    val detailRoute = backStackEntry.toRoute<LocationDetailDestination>()
-                    val location = locationDb.getLocationById(detailRoute.locationId)
+                composable<LocationDetailDestination> {
                     LocationDetailScreen(
-                        location = location,
                         onBackClick = { navController.popBackStack() }
                     )
                 }
@@ -200,6 +189,6 @@ fun MainAppContent(characterDb: CharacterDb, locationDb: LocationDb) {
 @Composable
 fun MainAppPreview() {
     Lab7Theme() {
-        MainAppContent(characterDb = CharacterDb(), locationDb = LocationDb())
+        MainAppContent()
     }
 }

@@ -1,6 +1,7 @@
 package com.lab7.chavez.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,22 +20,26 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.lab7.chavez.R
-import com.lab7.chavez.data.Character
+import com.lab7.chavez.viewmodels.CharacterDetailViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CharacterDetailScreen(
-    character: Character,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    viewModel: CharacterDetailViewModel = viewModel()
 ) {
+
+    val state by viewModel.state.collectAsState()
     Scaffold(
         topBar = {
             TopAppBar(
@@ -54,42 +59,60 @@ fun CharacterDetailScreen(
             )
         }
     ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Spacer(modifier = Modifier.height(16.dp))
+        Box(modifier = Modifier.padding(innerPadding).fillMaxSize()) {
+            when {
+                state.hasError -> {
+                    Error(
+                        errorMessage = "Error al obtener el perfil del personaje.",
+                        onRetryClick = { viewModel.fetchCharacterDetail() }
+                    )
+                }
 
-            AsyncImage(
-                model = character.image,
-                contentDescription = character.name,
-                modifier = Modifier
-                    .size(150.dp)
-                    .clip(CircleShape)
-            )
+                state.isLoading -> {
+                    Loading(
+                        onLoadingClick = { viewModel.triggerError() }
+                    )
+                }
 
-            Spacer(modifier = Modifier.height(16.dp))
+                else -> {
+                    state.data?.let { character ->
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            AsyncImage(
+                                model = character.image,
+                                contentDescription = character.name,
+                                modifier = Modifier
+                                    .size(150.dp)
+                                    .clip(CircleShape)
+                            )
 
-            Text(
-                text = character.name,
-                style = MaterialTheme.typography.headlineSmall
-            )
+                            Spacer(modifier = Modifier.height(16.dp))
 
-            Spacer(modifier = Modifier.height(32.dp))
+                            Text(
+                                text = character.name,
+                                style = MaterialTheme.typography.headlineSmall
+                            )
 
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 32.dp)
-            ) {
-                DetailRow(label = "Species", value = character.species)
-                Spacer(modifier = Modifier.height(8.dp))
-                DetailRow(label = "Status", value = character.status)
-                Spacer(modifier = Modifier.height(8.dp))
-                DetailRow(label = "Gender", value = character.gender)
+                            Spacer(modifier = Modifier.height(32.dp))
+
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 32.dp)
+                            ) {
+                                DetailRow(label = "Species", value = character.species)
+                                Spacer(modifier = Modifier.height(8.dp))
+                                DetailRow(label = "Status", value = character.status)
+                                Spacer(modifier = Modifier.height(8.dp))
+                                DetailRow(label = "Gender", value = character.gender)
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -113,4 +136,5 @@ fun DetailRow(label: String, value: String) {
         )
     }
 }
+
 
