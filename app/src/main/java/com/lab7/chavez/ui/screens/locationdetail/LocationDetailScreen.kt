@@ -12,6 +12,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.lab7.chavez.R
+import com.lab7.chavez.ui.screens.locationdetail.LocationDetailEvent
+import com.lab7.chavez.ui.screens.locationdetail.LocationDetailState
 import com.lab7.chavez.viewmodels.LocationDetailViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -28,36 +30,23 @@ fun LocationDetailScreen(
                 title = { Text("Location Details") },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.outline_arrow_left_alt_24),
-                            contentDescription = "Back"
-                        )
+                        Icon(painter = painterResource(id = R.drawable.outline_arrow_left_alt_24), contentDescription = "Back")
                     }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
-                )
+                }
             )
         }
     ) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding).fillMaxSize()) {
-            when {
-                state.hasError -> {
-                    Error(
-                        errorMessage = "Error al obtener el perfil de la ubicación.",
-                        onRetryClick = { viewModel.fetchLocationDetail() }
-                    )
-                }
-
-                state.isLoading -> {
-                    Loading(
-                        onLoadingClick = { viewModel.triggerError() }
-                    )
-                }
-
-                else -> {
-                    state.data?.let { location ->
+            when (val currentState = state) {
+                is LocationDetailState.Error -> Error(
+                    errorMessage = currentState.message,
+                    onRetryClick = { viewModel.onEvent(LocationDetailEvent.FetchData) }
+                )
+                is LocationDetailState.Loading -> Loading(
+                    onLoadingClick = { viewModel.onEvent(LocationDetailEvent.ForceError) }
+                )
+                is LocationDetailState.Success -> {
+                    val location = currentState.data
                         Column(
                             modifier = Modifier
                                 .fillMaxSize()
@@ -94,4 +83,3 @@ fun LocationDetailScreen(
             }
         }
     }
-}

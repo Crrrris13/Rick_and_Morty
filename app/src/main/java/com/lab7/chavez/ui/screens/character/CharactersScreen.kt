@@ -16,6 +16,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.lab7.chavez.data.Character
+import com.lab7.chavez.ui.screens.character.CharactersEvent
+import com.lab7.chavez.ui.screens.character.CharactersState
 import com.lab7.chavez.viewmodels.CharactersViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -38,22 +40,22 @@ fun CharactersScreen(
         }
     ) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding).fillMaxSize()) {
-            when {
-                state.hasError -> {
-                    Error(
-                        errorMessage = "Error al obtener el listado de personajes.",
-                        onRetryClick = { viewModel.fetchCharacters()}
-                    )
-                }
-                state.isLoading -> {
-                    Loading(
-                        onLoadingClick = { viewModel.triggerError() }
-                    )
-                }
 
-                else -> {
+            when (val currentState = state) {
+                is CharactersState.Error -> {
+                    Error(
+                        errorMessage = currentState.message,
+                        onRetryClick = { viewModel.onEvent(CharactersEvent.FetchData) }
+                    )
+                }
+                is CharactersState.Loading -> {
+                    Loading(
+                        onLoadingClick = { viewModel.onEvent(CharactersEvent.ForceError) }
+                    )
+                }
+                is CharactersState.Success -> {
                     LazyColumn(modifier = Modifier.fillMaxSize()) {
-                        items(state.data){ character ->
+                        items(currentState.data) { character ->
                             CharacterItem(
                                 character = character,
                                 onClick = { onCharacterClick(character.id) }

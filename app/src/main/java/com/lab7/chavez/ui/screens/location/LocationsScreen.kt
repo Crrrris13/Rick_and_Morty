@@ -12,6 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.lab7.chavez.data.Location
+import com.lab7.chavez.ui.screens.location.LocationsEvent
+import com.lab7.chavez.ui.screens.location.LocationsState
 import com.lab7.chavez.viewmodels.LocationsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -29,32 +31,25 @@ fun LocationsScreen(
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
-                ),
-
+                )
             )
         }
     ) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding).fillMaxSize()) {
-            when {
-                state.hasError -> {
-                    Error(
-                        errorMessage = "Error al obtener listado de ubicaciones.",
-                        onRetryClick = { viewModel.fetchLocations() }
-                    )
-                }
-
-                state.isLoading -> {
-                    Loading(
-                        onLoadingClick = { viewModel.triggerError() }
-                    )
-                }
-
-                else -> {
+            when (val currentState = state) {
+                is LocationsState.Error -> Error(
+                    errorMessage = currentState.message,
+                    onRetryClick = { viewModel.onEvent(LocationsEvent.FetchData) }
+                )
+                is LocationsState.Loading -> Loading(
+                    onLoadingClick = { viewModel.onEvent(LocationsEvent.ForceError) }
+                )
+                is LocationsState.Success -> {
                     LazyColumn(modifier = Modifier.fillMaxSize()) {
-                        items(state.data) { location ->
+                        items(currentState.data) { location ->
                             LocationItem(
                                 location = location,
-                                onClick = { onLocationClick(location.id)}
+                                onClick = { onLocationClick(location.id) }
                             )
                         }
                     }
