@@ -15,7 +15,6 @@ import com.lab7.chavez.R
 import com.lab7.chavez.ui.common.Error
 import com.lab7.chavez.ui.common.Loading
 import com.lab7.chavez.ui.screens.characterdetail.DetailRow
-import com.lab7.chavez.viewmodels.LocationDetailViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

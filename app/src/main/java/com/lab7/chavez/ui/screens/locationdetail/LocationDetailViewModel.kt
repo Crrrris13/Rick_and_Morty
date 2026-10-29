@@ -1,4 +1,4 @@
-package com.lab7.chavez.viewmodels
+package com.lab7.chavez.ui.screens.locationdetail
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -6,8 +6,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.lab7.chavez.data.LocationDb
 import com.lab7.chavez.navigation.LocationDetailDestination
-import com.lab7.chavez.ui.screens.locationdetail.LocationDetailEvent
-import com.lab7.chavez.ui.screens.locationdetail.LocationDetailState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

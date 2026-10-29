@@ -1,55 +1,50 @@
 package com.lab7.chavez.viewmodels
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.lab7.chavez.data.CharacterDb
+import com.lab7.chavez.data.AppDatabase
+import com.lab7.chavez.data.toModel
 import com.lab7.chavez.ui.screens.character.CharactersEvent
 import com.lab7.chavez.ui.screens.character.CharactersState
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class CharactersViewModel : ViewModel() {
+class CharactersViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val _state = MutableStateFlow<CharactersState>(CharactersState.Loading)
-    val state: StateFlow<CharactersState> = _state.asStateFlow()
+    private val characterDao = AppDatabase.getDatabase(application).characterDao()
+    private val isFilterActive = MutableStateFlow(false)
 
-    private val characterDb = CharacterDb()
+    val state: StateFlow<CharactersState> = combine(
+        characterDao.getAllCharacters(),
+        isFilterActive
+    ) { entities, filterActive ->
+        val models = entities.map { it.toModel() }
+        val filteredList = if (filterActive) models.filter { it.isFavorite } else models
 
-    private var fetchJob: Job? = null
-
-    init {
-        onEvent(CharactersEvent.FetchData)
-    }
+        CharactersState.Success(data = filteredList)
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = CharactersState.Loading
+    )
 
     fun onEvent(event: CharactersEvent) {
         when (event) {
-            is CharactersEvent.FetchData -> fetchCharacters()
-            is CharactersEvent.ForceError -> triggerError()
-        }
-    }
-
-    private fun fetchCharacters() {
-        fetchJob?.cancel()
-
-        fetchJob = viewModelScope.launch {
-            _state.value = CharactersState.Loading
-
-            delay(4000L)
-
-            try {
-                _state.value = CharactersState.Success(characterDb.getAllCharacters())
-            } catch (e: Exception) {
-                _state.value = CharactersState.Error("Error al obtener el listado de personajes.")
+            is CharactersEvent.ToggleFavorite -> {
+                viewModelScope.launch {
+                    characterDao.updateFavoriteStatus(event.id, !event.currentStatus)
+                }
             }
+            is CharactersEvent.ToggleFilter -> {
+                isFilterActive.value = !isFilterActive.value
+            }
+            is CharactersEvent.FetchData -> {  }
+            is CharactersEvent.ForceError -> {  }
         }
-    }
-
-    private fun triggerError() {
-        fetchJob?.cancel()
-        _state.value = CharactersState.Error("Error de carga.")
     }
 }

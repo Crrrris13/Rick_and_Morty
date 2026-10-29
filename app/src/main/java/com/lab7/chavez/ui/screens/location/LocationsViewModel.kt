@@ -1,10 +1,8 @@
-package com.lab7.chavez.viewmodels
+package com.lab7.chavez.ui.screens.location
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lab7.chavez.data.LocationDb
-import com.lab7.chavez.ui.screens.location.LocationsEvent
-import com.lab7.chavez.ui.screens.location.LocationsState
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -12,9 +12,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import com.lab7.chavez.R
 import com.lab7.chavez.data.Character
 import com.lab7.chavez.ui.common.Error
 import com.lab7.chavez.ui.common.Loading
@@ -32,6 +35,11 @@ fun CharactersScreen(
         topBar = {
             TopAppBar(
                 title = { Text("Characters") },
+                actions = {
+                    TextButton(onClick = { viewModel.onEvent(CharactersEvent.ToggleFilter) }) {
+                        Text("Filtrar favoritos", color = MaterialTheme.colorScheme.onPrimaryContainer)
+                    }
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
@@ -58,7 +66,10 @@ fun CharactersScreen(
                         items(currentState.data) { character ->
                             CharacterItem(
                                 character = character,
-                                onClick = { onCharacterClick(character.id) }
+                                onClick = { onCharacterClick(character.id) },
+                                onFavoriteClick = {
+                                    viewModel.onEvent(CharactersEvent.ToggleFavorite(character.id, character.isFavorite))
+                                }
                             )
                         }
                     }
@@ -69,7 +80,7 @@ fun CharactersScreen(
 }
 
 @Composable
-fun CharacterItem(character: Character, onClick: () -> Unit) {
+fun CharacterItem(character: Character, onClick: () -> Unit, onFavoriteClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -91,6 +102,17 @@ fun CharacterItem(character: Character, onClick: () -> Unit) {
                 text = "${character.species} - ${character.status}",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+
+        IconButton(onClick = onFavoriteClick) {
+            Icon(
+                painter = painterResource(
+                    id = if (character.isFavorite) R.drawable.ic_favorite else R.drawable.outline_favorite_24
+                ),
+                contentDescription = "Favorite",
+                tint = if (character.isFavorite) Color.Red else Color.LightGray,
+                modifier = Modifier.size(28.dp)
             )
         }
     }

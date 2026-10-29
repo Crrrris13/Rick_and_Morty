@@ -14,7 +14,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.lab7.chavez.data.Location
 import com.lab7.chavez.ui.common.Error
 import com.lab7.chavez.ui.common.Loading
-import com.lab7.chavez.viewmodels.LocationsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
