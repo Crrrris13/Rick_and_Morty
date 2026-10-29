@@ -22,17 +22,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
-import androidx.navigation.toRoute
-import com.lab7.chavez.R
-import com.lab7.chavez.data.CharacterDb
-import com.lab7.chavez.data.LocationDb
 import com.lab7.chavez.navigation.*
-import com.lab7.chavez.ui.screens.CharacterDetailScreen
-import com.lab7.chavez.ui.screens.CharactersScreen
-import com.lab7.chavez.ui.screens.LoginScreen
-import com.lab7.chavez.ui.screens.LocationDetailScreen
-import com.lab7.chavez.ui.screens.LocationsScreen
-import com.lab7.chavez.ui.screens.ProfileScreen
+import com.lab7.chavez.ui.screens.characterdetail.CharacterDetailScreen
+import com.lab7.chavez.ui.screens.character.CharactersScreen
+import com.lab7.chavez.ui.screens.login.LoginScreen
+import com.lab7.chavez.ui.screens.locationdetail.LocationDetailScreen
+import com.lab7.chavez.ui.screens.location.LocationsScreen
+import com.lab7.chavez.ui.screens.profile.ProfileScreen
 import com.lab7.chavez.ui.theme.Lab7Theme
 
 class MainActivity : ComponentActivity() {

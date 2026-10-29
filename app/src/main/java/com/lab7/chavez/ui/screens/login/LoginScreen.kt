@@ -1,4 +1,4 @@
-package com.lab7.chavez.ui.screens
+package com.lab7.chavez.ui.screens.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -24,9 +24,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.lab7.chavez.R
-import com.lab7.chavez.ui.screens.login.LoginEvent
-import com.lab7.chavez.ui.screens.login.LoginState
-import com.lab7.chavez.ui.screens.login.LoginViewModel
 
 @Composable
 fun LoginScreen(

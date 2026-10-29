@@ -1,4 +1,4 @@
-package com.lab7.chavez.ui.screens
+package com.lab7.chavez.ui.screens.characterdetail
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,8 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.lab7.chavez.R
-import com.lab7.chavez.ui.screens.characterdetail.CharacterDetailEvent
-import com.lab7.chavez.ui.screens.characterdetail.CharacterDetailState
+import com.lab7.chavez.ui.common.Error
+import com.lab7.chavez.ui.common.Loading
 import com.lab7.chavez.viewmodels.CharacterDetailViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)

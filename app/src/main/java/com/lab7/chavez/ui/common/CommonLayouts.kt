@@ -1,4 +1,4 @@
-package com.lab7.chavez.ui.screens
+package com.lab7.chavez.ui.common
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

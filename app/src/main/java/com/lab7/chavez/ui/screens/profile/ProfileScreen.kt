@@ -1,4 +1,4 @@
-package com.lab7.chavez.ui.screens
+package com.lab7.chavez.ui.screens.profile
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -13,9 +13,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.lab7.chavez.R
-import com.lab7.chavez.ui.screens.profile.ProfileEvent
-import com.lab7.chavez.ui.screens.profile.ProfileState
-import com.lab7.chavez.ui.screens.profile.ProfileViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

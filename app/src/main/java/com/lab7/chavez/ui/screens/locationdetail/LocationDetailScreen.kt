@@ -1,4 +1,4 @@
-package com.lab7.chavez.ui.screens
+package com.lab7.chavez.ui.screens.locationdetail
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
@@ -12,8 +12,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.lab7.chavez.R
-import com.lab7.chavez.ui.screens.locationdetail.LocationDetailEvent
-import com.lab7.chavez.ui.screens.locationdetail.LocationDetailState
+import com.lab7.chavez.ui.common.Error
+import com.lab7.chavez.ui.common.Loading
+import com.lab7.chavez.ui.screens.characterdetail.DetailRow
 import com.lab7.chavez.viewmodels.LocationDetailViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -1,4 +1,4 @@
-package com.lab7.chavez.ui.screens
+package com.lab7.chavez.ui.screens.location
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,8 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.lab7.chavez.data.Location
-import com.lab7.chavez.ui.screens.location.LocationsEvent
-import com.lab7.chavez.ui.screens.location.LocationsState
+import com.lab7.chavez.ui.common.Error
+import com.lab7.chavez.ui.common.Loading
 import com.lab7.chavez.viewmodels.LocationsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
